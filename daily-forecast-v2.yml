@@ -1,0 +1,27 @@
+name: Daily demand forecast (v2, lag-aware)
+
+on:
+  schedule:
+    - cron: "0 20 * * *"     # 20:00 UTC - evening, so yesterday's actuals have published
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  forecast:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -r requirements.txt
+      - run: python predict_v2.py
+      - name: Commit prediction
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add predictions_log.csv
+          git commit -m "v2 forecast $(date -u +%Y-%m-%d)" || echo "nothing to commit"
+          git push
