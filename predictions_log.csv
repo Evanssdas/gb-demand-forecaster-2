@@ -120,3 +120,4 @@ date_made,target_date,predicted_gw,actual_gw,error_gw,status
 2026-11-17,2026-11-18,40.17,41.06,-0.89,ok
 2026-11-18,2026-11-19,,,,skipped: ReadTimeout
 2026-11-19,2026-11-20,39.55,,,ok
+2026-11-20,2026-11-21,38.35,,,ok
